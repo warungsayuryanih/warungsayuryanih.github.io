@@ -3,51 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sayur Segar Nusantara - Kualitas Terbaik untuk Anda</title>
+    <title>Warung Sayur Yanih - Kualitas Terbaik untuk Anda</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f8f8f8;
-            color: #333;
-        }
-        .hero-section {
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://placehold.co/1200x600/6B8E23/FFFFFF?text=Sayuran+Segar') no-repeat center center/cover;
-            color: white;
-            padding: 8rem 0;
-            text-align: center;
+            background-color: #F9FBE7; /* Light creamy yellow-green */
+            color: #212121; /* Dark gray for readability */
+            padding-bottom: 60px; /* Adjust based on your bottom nav height */
         }
         .section-title {
-            color: #4CAF50; /* Hijau cerah */
+            color: #388E3C; /* Darker green for titles */
         }
         .product-card {
             transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            border-radius: 0.75rem; /* More rounded corners */
         }
         .product-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.15); /* Stronger shadow on hover */
         }
         .btn-primary {
-            background-color: #4CAF50; /* Hijau cerah */
+            background-color: #66BB6A; /* Brighter green */
             color: white;
             padding: 0.75rem 2rem;
             border-radius: 9999px; /* Rounded full */
             transition: background-color 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 150, 0, 0.2); /* Subtle shadow */
         }
         .btn-primary:hover {
-            background-color: #45a049; /* Hijau sedikit lebih gelap saat hover */
-        }
-        .footer {
-            background-color: #333;
-            color: white;
-            padding: 2rem 0;
-        }
-        .social-icon {
-            transition: transform 0.2s ease;
-        }
-        .social-icon:hover {
-            transform: scale(1.1);
+            background-color: #5CB85C; /* Slightly darker green on hover */
+            box-shadow: 0 6px 12px rgba(0, 150, 0, 0.3);
         }
         /* Custom modal styles */
         .modal {
@@ -67,9 +54,9 @@
             background-color: #fefefe;
             margin: auto;
             padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-            width: 80%;
+            border-radius: 1rem; /* More rounded */
+            box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+            width: 85%; /* Slightly wider for mobile */
             max-width: 500px;
             text-align: center;
         }
@@ -81,329 +68,403 @@
         }
         .close-button:hover,
         .close-button:focus {
-            color: black;
+            color: #333;
             text-decoration: none;
             cursor: pointer;
+        }
+
+        /* Bottom Navigation Bar Styles */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #fff;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            z-index: 999;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            height: 60px;
+        }
+        .bottom-nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex-grow: 1;
+            text-align: center;
+            color: #666;
+            font-size: 0.75rem; /* text-xs */
+            font-weight: 500; /* font-medium */
+            padding: 5px 0;
+            transition: color 0.2s ease;
+        }
+        .bottom-nav-item:hover {
+            color: #66BB6A; /* Brighter green on hover */
+        }
+        .bottom-nav-item svg {
+            width: 24px;
+            height: 24px;
+            margin-bottom: 2px;
+        }
+        .bottom-nav-item.active {
+            color: #66BB6A; /* Brighter green when active */
+        }
+
+        /* Section display control */
+        .content-section {
+            display: none; /* Hidden by default */
+        }
+        .content-section.active {
+            display: block; /* Show active section */
+        }
+
+        /* Adjust padding for content when header is fixed */
+        .main-content-padding {
+            padding-top: 0; /* Will be set by JS */
+        }
+        /* Search/Filter specific styles */
+        #filter-dropdown-container,
+        #search-input-container {
+            transition: all 0.3s ease-in-out; /* Smooth transition for expand/collapse */
+            overflow: hidden; /* Hide overflow during transition */
         }
     </style>
 </head>
 <body>
 
-    <!-- Navbar -->
-    <nav class="bg-white shadow-md py-4">
-        <div class="container mx-auto flex justify-between items-center px-4">
-            <div class="text-2xl font-bold text-green-700">Sayur Segar Nusantara</div>
-            <div class="hidden md:flex space-x-6">
-                <a href="#beranda" class="text-gray-600 hover:text-green-700 font-medium">Beranda</a>
-                <a href="#produk" class="text-gray-600 hover:text-green-700 font-medium">Produk Kami</a>
-                <a href="#tentang" class="text-gray-600 hover:text-green-700 font-medium">Tentang Kami</a>
-                <a href="#carapesan" class="text-gray-600 hover:text-green-700 font-medium">Cara Pesan</a>
-                <a href="#kontak" class="text-gray-600 hover:text-green-700 font-medium">Kontak</a>
-            </div>
-            <div class="md:hidden">
-                <button id="mobile-menu-button" class="text-gray-600 hover:text-green-700 focus:outline-none">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
-                </button>
-            </div>
+    <!-- Navbar (Simplified for Mobile View) -->
+    <nav id="main-navbar" class="bg-white shadow-md py-4 fixed top-0 left-0 w-full z-10">
+        <div class="container mx-auto max-w-2xl flex justify-between items-center px-4">
+            <!-- Filter Icon (left) -->
+            <button id="filter-icon" class="text-gray-600 hover:text-green-700 focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path>
+                </svg>
+            </button>
+
+            <!-- Title (center) -->
+            <div class="text-2xl font-bold text-green-700 absolute left-1/2 transform -translate-x-1/2">Warung Sayur Yanih</div>
+
+            <!-- Search Icon (right) -->
+            <button id="search-icon" class="text-gray-600 hover:text-green-700 focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+            </button>
         </div>
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="md:hidden hidden bg-white px-4 pt-2 pb-4 space-y-2">
-            <a href="#beranda" class="block text-gray-600 hover:text-green-700 font-medium">Beranda</a>
-            <a href="#produk" class="block text-gray-600 hover:text-green-700 font-medium">Produk Kami</a>
-            <a href="#tentang" class="block text-gray-600 hover:text-green-700 font-medium">Tentang Kami</a>
-            <a href="#carapesan" class="block text-gray-600 hover:text-green-700 font-medium">Cara Pesan</a>
-            <a href="#kontak" class="block text-gray-600 hover:text-green-700 font-medium">Kontak</a>
+
+        <!-- Filter Dropdown Container (hidden by default) -->
+        <div id="filter-dropdown-container" class="px-4 pb-2 mt-4 hidden">
+            <select id="category-filter" class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 bg-white text-sm">
+                <option value="Semua">Semua Kategori</option>
+                <option value="Sayuran Daun">Sayuran Daun</option>
+                <option value="Sayuran Buah">Sayuran Buah</option>
+                <option value="Umbi-umbian">Umbi-umbian</option>
+                <option value="Rempah">Rempah</option>
+            </select>
+        </div>
+
+        <!-- Search Input Container (hidden by default) -->
+        <div id="search-input-container" class="px-4 pb-2 mt-4 hidden">
+            <input type="text" id="search-input" placeholder="Cari sayuran..." class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 text-sm">
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section id="beranda" class="hero-section">
-        <div class="container mx-auto px-4">
-            <h1 class="text-5xl md:text-6xl font-bold mb-4 leading-tight">Sayur Segar Langsung dari Petani!</h1>
-            <p class="text-xl md:text-2xl mb-8">Kebutuhan Sayur Harian Anda, Kami Antarkan Langsung ke Dapur Anda.</p>
-            <a href="#produk" class="btn-primary inline-block text-lg font-semibold">Lihat Produk Kami</a>
-        </div>
-    </section>
+    <!-- Main content area with padding to account for fixed header -->
+    <div class="main-content-padding">
+        <!-- Produk Kami Section - Now the main content -->
+        <section id="produk" class="py-8 bg-gray-100 content-section active">
+            <div class="container mx-auto max-w-2xl px-4">
+                <h2 class="text-3xl font-bold text-center mb-8 section-title">Produk Sayuran Segar Kami</h2>
 
-    <!-- Keunggulan Kami Section -->
-    <section class="py-16 bg-white">
-        <div class="container mx-auto px-4">
-            <h2 class="text-4xl font-bold text-center mb-12 section-title">Mengapa Memilih Kami?</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-                <div class="p-6 rounded-lg shadow-lg bg-gray-50">
-                    <img src="https://placehold.co/80x80/4CAF50/FFFFFF?text=🌱" alt="Ikon Segar" class="mx-auto mb-4">
-                    <h3 class="text-xl font-semibold mb-2 text-gray-800">Segar Setiap Hari</h3>
-                    <p class="text-gray-600">Sayuran dipanen dan dikirim langsung untuk kesegaran maksimal.</p>
+                <!-- Product grid is now always 2 columns -->
+                <div id="product-grid" class="grid grid-cols-2 gap-4">
+                    <!-- Produk akan dimuat di sini oleh JavaScript -->
                 </div>
-                <div class="p-6 rounded-lg shadow-lg bg-gray-50">
-                    <img src="https://placehold.co/80x80/4CAF50/FFFFFF?text=🚚" alt="Ikon Pengiriman" class="mx-auto mb-4">
-                    <h3 class="text-xl font-semibold mb-2 text-gray-800">Pengiriman Cepat</h3>
-                    <p class="text-gray-600">Pesanan Anda diantar langsung ke depan pintu Anda dengan aman.</p>
+
+                <div id="no-products-message" class="text-center text-gray-600 mt-8 hidden">
+                    <p class="text-xl">Produk tidak ditemukan. Coba kata kunci atau kategori lain.</p>
                 </div>
-                <div class="p-6 rounded-lg shadow-lg bg-gray-50">
-                    <img src="https://placehold.co/80x80/4CAF50/FFFFFF?text=✅" alt="Ikon Kualitas" class="mx-auto mb-4">
-                    <h3 class="text-xl font-semibold mb-2 text-gray-800">Kualitas Terjamin</h3>
-                    <p class="text-gray-600">Pilihan sayuran organik dan konvensional terbaik, bebas pestisida.</p>
+
+                <div class="text-center mt-8">
+                    <button id="load-more-button" class="btn-primary inline-block text-lg font-semibold px-6 py-3">Muat Lebih Banyak</button>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Tentang Kami Section -->
+        <section id="tentang" class="py-8 bg-white content-section">
+            <div class="container mx-auto max-w-2xl px-4">
+                <h2 class="text-3xl font-bold text-center mb-8 section-title">Tentang Warung Sayur Yanih</h2>
+                <div class="max-w-3xl mx-auto text-center text-gray-700 leading-relaxed text-base">
+                    <p class="mb-3">Warung Sayur Yanih hadir dengan visi untuk menyediakan sayuran segar dan berkualitas terbaik yang kami pilih langsung dari pasar setiap harinya, kepada keluarga di seluruh Indonesia. Kami percaya bahwa makanan sehat dimulai dari bahan baku yang berkualitas.</p>
+                    <p class="mb-3">Kami berkomitmen untuk memilih sayuran terbaik dari pasar, memastikan Anda mendapatkan produk yang segar dan berkualitas tinggi. Setiap sayuran yang kami tawarkan telah melalui proses seleksi ketat untuk menjamin kesegaran dan kebersihannya.</p>
+                    <p>Misi kami adalah menjadikan gaya hidup sehat lebih mudah diakses dengan pengiriman sayuran yang praktis dan terpercaya. Mari bergabung dengan kami dalam menikmati kebaikan alam setiap hari!</p>
+
+                    <div class="mt-8 pt-4 border-t border-gray-200">
+                        <h3 class="text-2xl font-bold text-green-700 mb-4">Lokasi Kami</h3>
+                        <p class="text-gray-700 mb-4">
+                            Anda bisa menemukan Warung Sayur Yanih di alamat berikut:
+                            <br>
+                            <strong class="text-green-800">Jl. Raya Bogor No. 34, Cibinong, Bogor, Jawa Barat 16912</strong>
+                        </p>
+                        <a href="https://www.google.com/maps/place/Warung+Sayur+Yanih/@-6.4559845,106.8328507,8108m/data=!3m1!1e3!4m10!1m3!11m2!2s5Wr73gSxInH488wEVCAcgefsQrKVXA!3e1!3m5!1s0x2e69eb203e728ca3:0x8834c6d7e38024e4!8m2!3d-6.4559845!4d106.8534501!16s%2Fg%2F11xm5chbb0?entry=ttu&g_ep=EgoyMDI1MDcxNi4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="btn-primary inline-block text-base px-5 py-2">Lihat di Google Maps</a>
+                        <p class="text-gray-600 text-sm mt-4">
+                            *Alamat ini adalah contoh. Mohon ganti dengan alamat Warung Sayur Yanih yang sebenarnya.
+                        </p>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Produk Kami Section -->
-    <section id="produk" class="py-16 bg-gray-100">
-        <div class="container mx-auto px-4">
-            <h2 class="text-4xl font-bold text-center mb-12 section-title">Produk Sayuran Segar Kami</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Contoh Kartu Produk 1 -->
-                <div class="bg-white rounded-lg shadow-md overflow-hidden product-card">
-                    <img src="https://placehold.co/400x300/6B8E23/FFFFFF?text=Bayam+Hijau" alt="Bayam Hijau" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold mb-2 text-gray-800">Bayam Hijau</h3>
-                        <p class="text-gray-600 mb-4">Segar dari kebun, kaya vitamin dan mineral. Cocok untuk tumisan atau sup.</p>
-                        <div class="flex justify-between items-center">
-                            <span class="text-2xl font-bold text-green-700">Rp 10.000/ikat</span>
-                            <button class="btn-primary text-sm px-4 py-2" onclick="showModal('Bayam Hijau')">Pesan</button>
+        <!-- Cara Pesan Section -->
+        <section id="cara-pesan" class="py-8 bg-gray-100 content-section">
+            <div class="container mx-auto max-w-2xl px-4">
+                <h2 class="text-3xl font-bold text-center mb-8 section-title">Cara Pemesanan di Warung Sayur Yanih</h2>
+                <div class="max-w-2xl mx-auto text-center text-gray-700 leading-relaxed text-base">
+                    <p class="mb-6">Ikuti langkah-langkah mudah di bawah ini untuk memesan sayuran segar dari kami:</p>
+
+                    <div class="grid grid-cols-1 gap-6 mb-8">
+                        <div class="p-6 rounded-lg shadow-md bg-white text-center">
+                            <img src="https://placehold.co/80x80/66BB6A/FFFFFF?text=1" alt="Langkah 1" class="mx-auto mb-4">
+                            <h3 class="text-xl font-semibold mb-2 text-gray-800">1. Pilih Produk</h3>
+                            <p class="text-gray-600">Jelajahi beragam pilihan sayuran segar kami di halaman "Produk".</p>
+                        </div>
+                        <div class="p-6 rounded-lg shadow-md bg-white text-center">
+                            <img src="https://placehold.co/80x80/66BB6A/FFFFFF?text=2" alt="Langkah 2" class="mx-auto mb-4">
+                            <h3 class="text-xl font-semibold mb-2 text-gray-800">2. Hubungi Kami via WhatsApp</h3>
+                            <p class="text-gray-600">Klik tombol "Pesan" pada produk yang Anda inginkan atau langsung hubungi kami melalui WhatsApp.</p>
+                        </div>
+                        <div class="p-6 rounded-lg shadow-md bg-white text-center">
+                            <img src="https://placehold.co/80x80/66BB6A/FFFFFF?text=3" alt="Langkah 3" class="mx-auto mb-4">
+                            <h3 class="text-xl font-semibold mb-2 text-gray-800">3. Konfirmasi Pesanan & Pembayaran</h3>
+                            <p class="text-gray-600">Kami akan mengkonfirmasi pesanan Anda dan total biaya. Lakukan pembayaran via transfer bank.</p>
+                        </div>
+                        <div class="p-6 rounded-lg shadow-md bg-white text-center">
+                            <img src="https://placehold.co/80x80/66BB6A/FFFFFF?text=4" alt="Langkah 4" class="mx-auto mb-4">
+                            <h3 class="text-xl font-semibold mb-2 text-gray-800">4. Pengiriman</h3>
+                            <p class="text-gray-600">Pesanan Anda akan kami antar langsung ke lokasi Anda sesuai jadwal yang disepakati.</p>
                         </div>
                     </div>
-                </div>
-                <!-- Contoh Kartu Produk 2 -->
-                <div class="bg-white rounded-lg shadow-md overflow-hidden product-card">
-                    <img src="https://placehold.co/400x300/6B8E23/FFFFFF?text=Tomat+Cherry" alt="Tomat Cherry" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold mb-2 text-gray-800">Tomat Cherry</h3>
-                        <p class="text-gray-600 mb-4">Manis dan renyah, ideal untuk salad atau camilan sehat.</p>
-                        <div class="flex justify-between items-center">
-                            <span class="text-2xl font-bold text-green-700">Rp 15.000/kg</span>
-                            <button class="btn-primary text-sm px-4 py-2" onclick="showModal('Tomat Cherry')">Pesan</button>
-                        </div>
-                    </div>
-                </div>
-                <!-- Contoh Kartu Produk 3 -->
-                <div class="bg-white rounded-lg shadow-md overflow-hidden product-card">
-                    <img src="https://placehold.co/400x300/6B8E23/FFFFFF?text=Wortel+Organik" alt="Wortel Organik" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold mb-2 text-gray-800">Wortel Organik</h3>
-                        <p class="text-gray-600 mb-4">Wortel organik pilihan, baik untuk kesehatan mata dan kulit.</p>
-                        <div class="flex justify-between items-center">
-                            <span class="text-2xl font-bold text-green-700">Rp 18.000/kg</span>
-                            <button class="btn-primary text-sm px-4 py-2" onclick="showModal('Wortel Organik')">Pesan</button>
-                        </div>
-                    </div>
-                </div>
-                <!-- Tambahkan lebih banyak produk di sini -->
-                <div class="bg-white rounded-lg shadow-md overflow-hidden product-card">
-                    <img src="https://placehold.co/400x300/6B8E23/FFFFFF?text=Brokoli" alt="Brokoli" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold mb-2 text-gray-800">Brokoli</h3>
-                        <p class="text-gray-600 mb-4">Brokoli segar, sumber serat dan vitamin C yang baik.</p>
-                        <div class="flex justify-between items-center">
-                            <span class="text-2xl font-bold text-green-700">Rp 20.000/buah</span>
-                            <button class="btn-primary text-sm px-4 py-2" onclick="showModal('Brokoli')">Pesan</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-white rounded-lg shadow-md overflow-hidden product-card">
-                    <img src="https://placehold.co/400x300/6B8E23/FFFFFF?text=Cabai+Merah" alt="Cabai Merah" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold mb-2 text-gray-800">Cabai Merah</h3>
-                        <p class="text-gray-600 mb-4">Cabai merah segar, cocok untuk menambah cita rasa pedas pada masakan Anda.</p>
-                        <div class="flex justify-between items-center">
-                            <span class="text-2xl font-bold text-green-700">Rp 12.000/ons</span>
-                            <button class="btn-primary text-sm px-4 py-2" onclick="showModal('Cabai Merah')">Pesan</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-white rounded-lg shadow-md overflow-hidden product-card">
-                    <img src="https://placehold.co/400x300/6B8E23/FFFFFF?text=Timun" alt="Timun" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold mb-2 text-gray-800">Timun</h3>
-                        <p class="text-gray-600 mb-4">Timun segar dan renyah, cocok untuk lalapan atau salad.</p>
-                        <div class="flex justify-between items-center">
-                            <span class="text-2xl font-bold text-green-700">Rp 8.000/kg</span>
-                            <button class="btn-primary text-sm px-4 py-2" onclick="showModal('Timun')">Pesan</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="text-center mt-12">
-                <a href="#kontak" class="btn-primary inline-block text-lg font-semibold">Pesan Sekarang!</a>
-            </div>
-        </div>
-    </section>
 
-    <!-- Tentang Kami Section -->
-    <section id="tentang" class="py-16 bg-white">
-        <div class="container mx-auto px-4">
-            <h2 class="text-4xl font-bold text-center mb-12 section-title">Tentang Sayur Segar Nusantara</h2>
-            <div class="max-w-3xl mx-auto text-center text-gray-700 leading-relaxed">
-                <p class="mb-4">Sayur Segar Nusantara hadir dengan visi untuk menyediakan sayuran segar dan berkualitas terbaik langsung dari petani lokal kepada keluarga di seluruh Indonesia. Kami percaya bahwa makanan sehat dimulai dari bahan baku yang berkualitas.</p>
-                <p class="mb-4">Kami berkomitmen untuk mendukung petani lokal dengan membeli hasil panen mereka secara adil, sekaligus memastikan Anda mendapatkan sayuran yang dipanen pada puncaknya. Setiap sayuran yang kami tawarkan telah melalui proses seleksi ketat untuk menjamin kesegaran dan kebersihannya.</p>
-                <p>Misi kami adalah menjadikan gaya hidup sehat lebih mudah diakses dengan pengiriman sayuran yang praktis dan terpercaya. Mari bergabung dengan kami dalam mendukung pertanian berkelanjutan dan menikmati kebaikan alam setiap hari!</p>
+                    <p class="text-gray-700 text-base mb-4">Minimum order Rp 50.000 untuk pengiriman gratis.</p>
+                    <p class="text-gray-700 text-base mb-6">Jam operasional pengiriman: Senin - Sabtu, 08:00 - 17:00 WIB.</p>
+                    <a href="https://wa.me/6281234567890" target="_blank" class="btn-primary inline-block text-lg font-semibold px-6 py-3">Mulai Pesan Sekarang via WhatsApp!</a>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </div>
 
-    <!-- Cara Pesan Section -->
-    <section id="carapesan" class="py-16 bg-gray-100">
-        <div class="container mx-auto px-4">
-            <h2 class="text-4xl font-bold text-center mb-12 section-title">Mudahnya Memesan Sayuran Segar dari Kami</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="p-6 rounded-lg shadow-md bg-white text-center">
-                    <img src="https://placehold.co/80x80/4CAF50/FFFFFF?text=🛒" alt="Ikon Pilih Produk" class="mx-auto mb-4">
-                    <h3 class="text-xl font-semibold mb-2 text-gray-800">1. Pilih Produk</h3>
-                    <p class="text-gray-600">Jelajahi beragam pilihan sayuran segar kami di halaman "Produk Kami".</p>
-                </div>
-                <div class="p-6 rounded-lg shadow-md bg-white text-center">
-                    <img src="https://placehold.co/80x80/4CAF50/FFFFFF?text=📞" alt="Ikon Hubungi" class="mx-auto mb-4">
-                    <h3 class="text-xl font-semibold mb-2 text-gray-800">2. Hubungi Kami</h3>
-                    <p class="text-gray-600">Hubungi kami melalui WhatsApp atau telepon untuk memesan sayuran pilihan Anda.</p>
-                </div>
-                <div class="p-6 rounded-lg shadow-md bg-white text-center">
-                    <img src="https://placehold.co/80x80/4CAF50/FFFFFF?text=💳" alt="Ikon Pembayaran" class="mx-auto mb-4">
-                    <h3 class="text-xl font-semibold mb-2 text-gray-800">3. Konfirmasi & Pembayaran</h3>
-                    <p class="text-gray-600">Kami akan mengkonfirmasi pesanan dan total biaya. Lakukan pembayaran via transfer.</p>
-                </div>
-                <div class="p-6 rounded-lg shadow-md bg-white text-center">
-                    <img src="https://placehold.co/80x80/4CAF50/FFFFFF?text=📦" alt="Ikon Pengiriman" class="mx-auto mb-4">
-                    <h3 class="text-xl font-semibold mb-2 text-gray-800">4. Pengiriman</h3>
-                    <p class="text-gray-600">Pesanan Anda akan kami antar langsung ke lokasi Anda sesuai jadwal.</p>
-                </div>
-            </div>
-            <div class="text-center mt-12">
-                <p class="text-gray-700 text-lg mb-4">Area pengiriman kami mencakup seluruh wilayah Jakarta dan sekitarnya.</p>
-                <p class="text-gray-700 text-lg">Minimum order Rp 50.000 untuk pengiriman gratis.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Kontak Kami Section -->
-    <section id="kontak" class="py-16 bg-white">
-        <div class="container mx-auto px-4">
-            <h2 class="text-4xl font-bold text-center mb-12 section-title">Hubungi Kami</h2>
-            <div class="max-w-xl mx-auto bg-gray-50 p-8 rounded-lg shadow-md">
-                <p class="text-center text-gray-700 mb-6">Jangan ragu untuk menghubungi kami jika Anda memiliki pertanyaan atau ingin memesan!</p>
-                <div class="space-y-4 mb-8 text-center">
-                    <p class="text-lg text-gray-800">
-                        <strong>Telepon/WhatsApp:</strong> <a href="https://wa.me/6281234567890" target="_blank" class="text-green-700 hover:underline">0812-3456-7890</a>
-                    </p>
-                    <p class="text-lg text-gray-800">
-                        <strong>Email:</strong> <a href="mailto:info@sayursegar.com" class="text-green-700 hover:underline">info@sayursegar.com</a>
-                    </p>
-                    <p class="text-lg text-gray-800">
-                        <strong>Jam Operasional:</strong> Senin - Sabtu, 08:00 - 17:00 WIB
-                    </p>
-                </div>
-                <form class="space-y-4">
-                    <div>
-                        <label for="name" class="block text-gray-700 font-semibold mb-2">Nama Lengkap</label>
-                        <input type="text" id="name" name="name" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="Masukkan nama Anda" required>
-                    </div>
-                    <div>
-                        <label for="email" class="block text-gray-700 font-semibold mb-2">Email</label>
-                        <input type="email" id="email" name="email" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="Masukkan email Anda" required>
-                    </div>
-                    <div>
-                        <label for="phone" class="block text-gray-700 font-semibold mb-2">Nomor Telepon</label>
-                        <input type="tel" id="phone" name="phone" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="Masukkan nomor telepon Anda">
-                    </div>
-                    <div>
-                        <label for="message" class="block text-gray-700 font-semibold mb-2">Pesan</label>
-                        <textarea id="message" name="message" rows="5" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="Tulis pesan Anda di sini..." required></textarea>
-                    </div>
-                    <button type="submit" class="btn-primary w-full text-lg font-semibold py-3">Kirim Pesan</button>
-                </form>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer text-center">
-        <div class="container mx-auto px-4">
-            <p>&copy; 2025 Sayur Segar Nusantara. Semua Hak Dilindungi.</p>
-            <div class="flex justify-center space-x-6 mt-4">
-                <a href="#" class="social-icon text-white hover:text-green-400">
-                    <!-- Facebook Icon -->
-                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm3 8h-2v4h2v-4zm-3-2h-2v4h2V8zm-3 0H7v4h2V8z"/></svg>
-                </a>
-                <a href="#" class="social-icon text-white hover:text-green-400">
-                    <!-- Instagram Icon -->
-                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm3.5 4.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm-3 12a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9zm0-2a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg>
-                </a>
-            </div>
-            <div class="mt-4 text-sm">
-                <a href="#" class="text-white hover:underline mx-2">Kebijakan Privasi</a> |
-                <a href="#" class="text-white hover:underline mx-2">Syarat & Ketentuan</a>
-            </div>
-        </div>
-    </footer>
 
     <!-- The Modal -->
     <div id="myModal" class="modal">
         <div class="modal-content">
-            <span class="close-button">&times;</span>
+            <span class="close-button" id="modal-close-button">&times;</span>
             <p id="modal-message" class="text-lg text-gray-800"></p>
             <p class="text-gray-600 mt-4">Silakan hubungi kami melalui WhatsApp untuk melanjutkan pemesanan:</p>
             <a href="https://wa.me/6281234567890" target="_blank" class="btn-primary inline-block mt-4">WhatsApp Kami</a>
         </div>
     </div>
 
+    <!-- Bottom Navigation Bar for Mobile -->
+    <nav class="bottom-nav">
+        <a href="#" class="bottom-nav-item active" data-section="produk">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+            </svg>
+            <span>Produk</span>
+        </a>
+        <a href="#" class="bottom-nav-item" data-section="cara-pesan">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 4v-4z" />
+            </svg>
+            <span>Cara Pesan</span>
+        </a>
+        <a href="#" class="bottom-nav-item" data-section="tentang">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span>Tentang</span>
+        </a>
+    </nav>
+
     <script>
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
+        // Data produk dummy
+        const productsData = [
+            { id: 1, name: "Bayam Hijau", category: "Sayuran Daun", price: "10.000/ikat", image: "https://placehold.co/400x300/66BB6A/FFFFFF?text=Bayam+Hijau" },
+            { id: 2, name: "Tomat Cherry", category: "Sayuran Buah", price: "15.000/kg", image: "https://placehold.co/400x300/66BB6A/FFFFFF?text=Tomat+Cherry" },
+            { id: 3, name: "Wortel Organik", category: "Umbi-umbian", price: "18.000/kg", image: "https://placehold.co/400x300/66BB6A/FFFFFF?text=Wortel+Organik" },
+            { id: 4, name: "Brokoli", category: "Sayuran Buah", price: "20.000/buah", image: "https://placehold.co/400x300/66BB6A/FFFFFF?text=Brokoli" },
+            { id: 5, name: "Cabai Merah", category: "Rempah", price: "12.000/ons", image: "https://placehold.co/400x300/66BB6A/FFFFFF?text=Cabai+Merah" },
+            { id: 6, name: "Timun", category: "Sayuran Buah", price: "8.000/kg", image: "https://placehold.co/400x300/66BB6A/FFFFFF?text=Timun" },
+            { id: 7, name: "Sawi Hijau", category: "Sayuran Daun", price: "9.000/ikat", image: "https://placehold.co/400x300/66BB6A/FFFFFF?text=Sawi+Hijau" },
+            { id: 8, name: "Terong Ungu", category: "Sayuran Buah", price: "11.000/kg", image: "https://placehold.co/400x300/66BB6A/FFFFFF?text=Terong+Ungu" },
+            { id: 9, name: "Kentang", category: "Umbi-umbian", price: "14.000/kg", image: "https://placehold.co/400x300/66BB6A/FFFFFF?text=Kentang" },
+            { id: 10, name: "Jahe", category: "Rempah", price: "10.000/ons", image: "https://placehold.co/400x300/66BB6A/FFFFFF?text=Jahe" },
+            { id: 11, name: "Kangkung", category: "Sayuran Daun", price: "7.000/ikat", image: "https://placehold.co/400x300/66BB6A/FFFFFF?text=Kangkung" },
+            { id: 12, name: "Buncis", category: "Sayuran Buah", price: "9.000/kg", image: "https://placehold.co/400x300/66BB6A/FFFFFF?text=Buncis" },
+        ];
 
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
+        const productsPerPage = 6; // Jumlah produk yang ditampilkan per halaman
+        let currentProductsDisplayed = 0; // Jumlah produk yang sudah ditampilkan
+        let filteredProducts = []; // Produk setelah filter dan pencarian
 
-                // Close mobile menu after clicking a link
-                const mobileMenu = document.getElementById('mobile-menu');
-                if (!mobileMenu.classList.contains('hidden')) {
-                    mobileMenu.classList.add('hidden');
-                }
-            });
-        });
+        const productGrid = document.getElementById('product-grid');
+        const searchInput = document.getElementById('search-input');
+        const categoryFilter = document.getElementById('category-filter');
+        const loadMoreButton = document.getElementById('load-more-button');
+        const noProductsMessage = document.getElementById('no-products-message');
+        const filterIcon = document.getElementById('filter-icon'); // Filter icon
+        const searchIcon = document.getElementById('search-icon'); // Search icon
+        const filterDropdownContainer = document.getElementById('filter-dropdown-container'); // Filter container
+        const searchInputContainer = document.getElementById('search-input-container'); // Search container
+        const mainNavbar = document.getElementById('main-navbar');
+        const mainContentPaddingDiv = document.querySelector('.main-content-padding');
 
-        // Toggle mobile menu
-        document.getElementById('mobile-menu-button').addEventListener('click', function() {
-            document.getElementById('mobile-menu').classList.toggle('hidden');
-        });
 
-        // Get the modal
-        const modal = document.getElementById("myModal");
-        // Get the <span> element that closes the modal
-        const span = document.getElementsByClassName("close-button")[0];
-        // Get the message paragraph in the modal
-        const modalMessage = document.getElementById("modal-message");
-
-        // Function to show the modal
-        function showModal(productName) {
-            modalMessage.textContent = `Anda tertarik dengan ${productName}!`;
-            modal.style.display = "flex"; // Use flex to center content
+        // Function to update main content padding based on header height
+        function updateMainContentPadding() {
+            const navbarHeight = mainNavbar.offsetHeight;
+            mainContentPaddingDiv.style.paddingTop = `${navbarHeight}px`;
         }
 
-        // When the user clicks on <span> (x), close the modal
-        span.onclick = function() {
+        // Fungsi untuk merender produk ke dalam grid
+        function renderProducts(category = 'Semua', searchTerm = '', append = false) {
+            // Filter produk berdasarkan kategori dan pencarian
+            filteredProducts = productsData.filter(product => {
+                const matchesCategory = category === 'Semua' || product.category === category;
+                const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase());
+                return matchesCategory && matchesSearch;
+            });
+
+            if (!append) {
+                productGrid.innerHTML = ''; // Bersihkan grid jika tidak append (misal: filter berubah)
+                currentProductsDisplayed = 0; // Reset jumlah yang ditampilkan
+            }
+
+            const productsToRender = filteredProducts.slice(0, currentProductsDisplayed + productsPerPage);
+            currentProductsDisplayed = productsToRender.length;
+
+            if (productsToRender.length === 0 && !append) { // Jika tidak ada produk ditemukan dan bukan mode append
+                noProductsMessage.classList.remove('hidden');
+            } else {
+                noProductsMessage.classList.add('hidden');
+                productsToRender.forEach(product => {
+                    const productCard = `
+                        <div class="bg-white rounded-lg shadow-md overflow-hidden product-card">
+                            <img src="${product.image}" alt="${product.name}" class="w-full h-48 object-cover">
+                            <div class="p-4">
+                                <h3 class="text-lg font-semibold mb-1 text-gray-800">${product.name}</h3>
+                                <p class="text-gray-600 text-sm mb-3">${product.category}</p>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-lg font-bold text-green-700">Rp ${product.price}</span>
+                                    <button class="btn-primary text-sm px-3 py-1.5" onclick="showModal('${product.name}')">Pesan</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    productGrid.insertAdjacentHTML('beforeend', productCard);
+                });
+            }
+
+
+            // Tampilkan atau sembunyikan tombol "Muat Lebih Banyak"
+            if (currentProductsDisplayed < filteredProducts.length) {
+                loadMoreButton.style.display = 'inline-block';
+            } else {
+                loadMoreButton.style.display = 'none';
+            }
+        }
+
+        // Event listener untuk filter kategori
+        categoryFilter.addEventListener('change', () => {
+            renderProducts(categoryFilter.value, searchInput.value, false);
+        });
+
+        // Event listener untuk pencarian
+        searchInput.addEventListener('input', () => {
+            renderProducts(categoryFilter.value, searchInput.value, false);
+        });
+
+        // Event listener untuk tombol "Muat Lebih Banyak"
+        loadMoreButton.addEventListener('click', () => {
+            renderProducts(categoryFilter.value, searchInput.value, true); // Append products
+        });
+
+        // --- Fungsi untuk mengontrol tampilan section ---
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(sectionId).classList.add('active');
+
+            document.querySelectorAll('.bottom-nav-item').forEach(item => {
+                item.classList.remove('active');
+                if (item.dataset.section === sectionId) {
+                    item.classList.add('active');
+                }
+            });
+        }
+
+        // Event listeners untuk bottom navigation items
+        document.querySelectorAll('.bottom-nav-item').forEach(item => {
+            if (item.dataset.section) {
+                item.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    showSection(this.dataset.section);
+                });
+            }
+        });
+
+        // New: Toggle filter dropdown visibility
+        filterIcon.addEventListener('click', () => {
+            filterDropdownContainer.classList.toggle('hidden');
+            searchInputContainer.classList.add('hidden'); // Ensure search is hidden
+            updateMainContentPadding(); // Recalculate padding
+        });
+
+        // New: Toggle search input visibility
+        searchIcon.addEventListener('click', () => {
+            searchInputContainer.classList.toggle('hidden');
+            filterDropdownContainer.classList.add('hidden'); // Ensure filter is hidden
+            updateMainContentPadding(); // Recalculate padding
+        });
+
+
+        // Initialize: Tampilkan bagian "Produk" dan render produk saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', () => {
+            showSection('produk');
+            renderProducts(); // Render produk pertama kali
+            updateMainContentPadding(); // Set initial padding
+        });
+
+        // Update padding on window resize to handle responsiveness
+        window.addEventListener('resize', updateMainContentPadding);
+
+
+        // --- Modal functionality ---
+        const modal = document.getElementById("myModal");
+        const modalCloseButton = document.getElementById("modal-close-button"); // Changed from span to specific ID
+        const modalMessage = document.getElementById("modal-message");
+
+        function showModal(productName) {
+            modalMessage.textContent = `Anda tertarik dengan ${productName}!`;
+            modal.style.display = "flex";
+        }
+
+        modalCloseButton.onclick = function() {
             modal.style.display = "none";
         }
 
-        // When the user clicks anywhere outside of the modal, close it
         window.onclick = function(event) {
             if (event.target == modal) {
                 modal.style.display = "none";
             }
         }
-
-        // Handle form submission (example - in a real app, this would send data to a server)
-        document.querySelector('#kontak form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            // In a real application, you would send this data to a backend server.
-            // For this simple example, we'll just show a success message in the modal.
-            modalMessage.textContent = "Terima kasih! Pesan Anda telah terkirim. Kami akan segera menghubungi Anda.";
-            modal.style.display = "flex";
-            this.reset(); // Clear the form
-        });
     </script>
 </body>
 </html>
